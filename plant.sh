@@ -4,6 +4,8 @@ set -e
 
 . common.sh
 
+[ -z "$1" ] && exit 1
+
 wwid=${1:0:2}
 wid=${wwid:1:2}
 wtype=${wwid:0:1}
@@ -51,4 +53,3 @@ if [ ! -f $plant_script ] ; then
 fi
 
 $plant_script $@
-
