@@ -1,0 +1,4 @@
+_plugin/example/_testscript/echo.sh 1
+_plugin/example/_testscript/echo.sh 2
+_plugin/example/_testscript/echo.sh 3
+
