@@ -6,7 +6,7 @@
 [[ "$i" -ge 1 ]] && mid=${!i} && ((i--))
 [[ "$i" -ge 1 ]] && MATRIX_MDBVERSION=${!i} && ((i--))
 
-MARIADB_VERSION=${MATRIX_MDBVERSION:10.1}
+MARIADB_VERSION=${MATRIX_MDBVERSION:-10.1}
 
 [[ $mid =~ [0-9] ]] || { echo "Expected MariaDB environ id as last parameter, got ($mid)" 1>&2; exit 1; }
 
@@ -14,6 +14,10 @@ MARIADB_VERSION=${MATRIX_MDBVERSION:10.1}
 
 set -x
 echo try to uninstall - ignore any errors
+
+
+m${mid}*/shutdown.sh
+m${mid}*/kill9.sh
 _system/uninstall.sh
 
 set -e

@@ -19,6 +19,8 @@ do
   $SCRIPT
 done
 
+set -e
+
 if [ -f _system/repomode_configure_$mode.sh ] ; then
   _system/repomode_configure_$mode.sh $M7MAJOR
 else

@@ -27,6 +27,9 @@ set -e
 retry 5 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 $PUBKEY 
 
 echo 'deb [arch=amd64,i386] http://mirror.one.com/mariadb/repo/'$M7MAJOR'/'$DISTNAME' '$DISTCODE' main' >> /etc/apt/sources.list
-apt-get update
 
-rm -rf /var/lib/mysql/debian-*.flag
+# ignore eventual errors as they may come from unrelated repos
+apt-get update || :
+
+# rm -rf /var/lib/mysql/debian-*.flag
+

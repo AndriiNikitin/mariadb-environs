@@ -13,6 +13,7 @@ datadir=__datadir
 socket=__datadir/my.sock
 pid_file=__datadir/p.id
 
+innodb_log_file_size=5M
 
 !include /etc/mysqldextra.cnf
 EOL

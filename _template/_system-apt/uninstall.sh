@@ -1,7 +1,7 @@
 #!/bin/bash
 export DEBIAN_FRONTEND=noninteractive
 
-pkgToRemoveListFull="mysql-server mysql-client libmysqlclient libmariadbclient mysql-common mariadb-common mariadb-client-core mariadb-client mariadb-server-core  mariadb-server"
+pkgToRemoveListFull="mysql-server mysql-server-core mysql-client libmysqlclient libmariadbclient mysql-common mariadb-common mariadb-client-core mariadb-client mariadb-server-core  mariadb-server"
 pkgToRemoveList=""
 for pkgToRemove in $(echo $pkgToRemoveListFull); do
   $(dpkg --status $pkgToRemove &> /dev/null)
