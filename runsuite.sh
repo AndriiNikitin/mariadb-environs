@@ -40,21 +40,16 @@ function runtest()
 
 function generate_logname()
 {
-  if [ $# -le 2 ] ; then
-     res=$(basename "$1" .sh)$(basename "$2" .sh)
-  else
-    for var in "$@"
-    do
-      if [[ "$var" == *.sh ]] ; then
-        var=$(basename "$var" .sh)
-      else
-        # skip environ arguments
-        [ "${#var}" -eq 2 ] && [ -d $var* 2>/dev/null  ] && continue
-        [ "${#var}" -ge 9 ] && var=${var:0:3}~${var: -5}
-      fi
-      res=$res$var
-    done
-  fi
+  for var in "$@" ; do
+    if [[ "$var" == *.sh ]] ; then
+      var=$(basename "$var" .sh)
+    else
+      # skip environ arguments
+      [ "${#var}" -eq 2 ] && [ -d $var* 2>/dev/null  ] && continue
+      [ "${#var}" -ge 9 ] && var=${var:0:3}~${var: -5}
+    fi
+    res=$res$var
+  done
   echo $res
 }
 
