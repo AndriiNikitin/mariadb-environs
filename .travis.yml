@@ -1,6 +1,6 @@
 language: cpp
 dist: trusty
-sudo: false
+sudo: true
 
 script:
-    - bash _test/upgrade.sh
+    - sudo bash _test/upgrade.sh
