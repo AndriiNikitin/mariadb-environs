@@ -14,10 +14,10 @@ function build_xargs()
 }
 
 echo "Checking prerequisites..."
-xargs --help | grep -q process-slot-var || build_xargs() >& /dev/null
+xargs --help | grep -q process-slot-var || build_xargs >& /dev/null
 
 if ! xargs --help | grep -q process-slot-var ; then
-  echo "need xargs 4.6 or later" 2>&1 
+  echo "needs xargs 4.6 or later" 2>&1 
   exit 1
 fi
 
