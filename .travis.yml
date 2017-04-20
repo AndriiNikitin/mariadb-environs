@@ -3,4 +3,6 @@ dist: trusty
 sudo: true
 
 script:
+    - ./runsuite.sh _plugin/example/_matrix/echo.lst
     - sudo bash _test/upgrade.sh
+

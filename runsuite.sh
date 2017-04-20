@@ -7,14 +7,23 @@
 # try to build xargs 4.6.0 as we currently rely on --process-slot-var option
 function build_xargs()
 {
-  wget http://ftp.gnu.org/pub/gnu/findutils/findutils-4.6.0.tar.gz
-  tar xzf findutils-4.6.0.tar.gz
-  ( cd findutils-4.6.0 && ./configure && make )
-  [ -x $(pwd)/findutils-4.6.0/xargs/xargs ] && alias xargs=$(pwd)/findutils-4.6.0/xargs/xargs
+  # if binary is built already - just exit
+  [ -x "$(pwd)/findutils-4.6.0/xargs/xargs" ] && exit
+
+  rm -rf ./findutils-4.6.0
+  rm -rf ./findutils-4.6.0.tar.gz
+  wget http://ftp.gnu.org/pub/gnu/findutils/findutils-4.6.0.tar.gz && \
+    tar xzf findutils-4.6.0.tar.gz && \
+    ( cd ./findutils-4.6.0 && ./configure && make )
 }
 
 echo "Checking prerequisites..."
-xargs --help | grep -q process-slot-var || build_xargs # >& /dev/null
+xargs --help | grep -q process-slot-var || build_xargs >& /dev/null
+
+[ -x $(pwd)/findutils-4.6.0/xargs/xargs ] && alias xargs=$(pwd)/findutils-4.6.0/xargs/xargs
+
+shopt -s expand_aliases
+shopt -u nullglob
 
 if ! xargs --help | grep -q process-slot-var ; then
   echo "needs xargs 4.6 or later" 2>&1 
@@ -25,9 +34,6 @@ start_time=$(date +%s)
 CONCURRENCY=${ERN_TEST_CONCURRENCY:-5}
 # this is currently doesn't work and is hardcoded below
 TEST_TIMEOUT=${ERN_TEST_DEFAULT_TIMEOUT:-2100}
-
-shopt -s expand_aliases
-shopt -u nullglob
 
 declare environs=""
 
