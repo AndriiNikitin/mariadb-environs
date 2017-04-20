@@ -248,16 +248,18 @@ else
   echo Failures=$failure_count >> "$suitelogdir"/_suite.log
 
   # tail logs for each failure
-  if [ -d $suitelogdir/failures ] ; then
-    for log in $suitelogdir/failures/*.{err,log} ; do
+  if [ -d "$suitelogdir"/failures ] ; then
+    for f in "$suitelogdir"/failures/*.{err,log} ; do
       echo ====================================================
-      echo $(basename "$log")
-      tail -n 20 "$log"
+      echo $(basename "$f")
+      tail -n20 "$f"
     done
-    cat "$suitelogdir"/_suite.log
-  else
-    tail -n 6  "$suitelogdir"/_suite.log
+
+    echo ====================================================
+    echo FAILED tests :
+    cat  "$suitelogdir"/failures/retest.lst
   fi
 
+  tail -n 6  "$suitelogdir"/_suite.log
   ( exit $failure_count )
 fi
