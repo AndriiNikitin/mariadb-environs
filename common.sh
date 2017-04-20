@@ -3,7 +3,7 @@
 # this is base port number used by non-system environs
 declare -i -r ERN_MARIADB_BASE_PORT=3306
 # number of concurrent tests and default test timeout in ./runsuite.sh
-declare -i -r ERN_TEST_CONCURRENCY=10
+declare -i -r ERN_TEST_CONCURRENCY=5
 declare -i -r ERN_TEST_DEFAULT_TIMEOUT=300
 # your personal token from Enterprise my_portal
 declare -r ERN_ENTERPRISE_TOKEN=xxxx-xxxx
