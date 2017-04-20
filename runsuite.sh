@@ -1,8 +1,25 @@
 #!/bin/bash
 # this file is little mess for now and may need some effort to be nice
-. common.sh || exit
+. common.sh || exit $?
 
-[ $# -ge 1 ] || exit
+[ $# -ge 1 ] || exit 1
+
+# try to build xargs 4.6.0 as we currently rely on --process-slot-var option
+function build_xargs()
+{
+  wget http://ftp.gnu.org/pub/gnu/findutils/findutils-4.6.0.tar.gz
+  tar xzf findutils-4.6.0.tar.gz
+  ( cd findutils-4.6.0 && ./configure && make )
+  [ -x $(pwd)/findutils-4.6.0/xargs/xargs ] && alias xargs=$(pwd)/findutils-4.6.0/xargs/xargs
+}
+
+echo "Checking prerequisites..."
+xargs --help | grep -q process-slot-var || build_xargs() >& /dev/null
+
+if ! xargs --help | grep -q process-slot-var ; then
+  echo "need xargs 4.6 or later" 2>&1 
+  exit 1
+fi
 
 start_time=$(date +%s)
 CONCURRENCY=${ERN_TEST_CONCURRENCY:-5}
