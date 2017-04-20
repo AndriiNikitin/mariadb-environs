@@ -114,12 +114,12 @@ function generate_logname()
       . $test $testargs $workerid 2>$errfile >$logfile &
     fi
 
-    local runpid=$!    # Process Id of the previous running command
-    local TMOUT=${TEST_TIMEOUT}
+    local -r runpid=$!    # Process Id of the previous running command
+    local -r TMOUT=${TEST_TIMEOUT}
     # we check if $runpid may be killed and just exit if it has finished
     # sleeping in subshell reduces delay on job completion
-    [ -z "$TMOUT" ] || [ -z "$workerid" ] || ( ( for ((n=0;n<$TMOUT;n++)); do sleep 1; kill -0 ${runpid} >/dev/null 2>&1 || exit ; done ; echo $(date +"%T") timeout >> ${suitelogdir}w${workerid}.log ; kill -15 ${runpid} ) ) &
-  
+    [ -z "$TMOUT" ] || [ -z "$workerid" ] || { for ((n=0;n<$TMOUT;n++)); do sleep 1; kill -0 ${runpid} >/dev/null 2>&1 || exit ; done ; echo $(date +"%T") timeout >> ${suitelogdir}w${workerid}.log ; kill -15 ${runpid}; } &
+
     wait $runpid
     local -r res=$?
   fi
@@ -198,7 +198,7 @@ else
   lstmask="${last}/*.lst"
   [ "$last" == "${last%.*}.lst" ] && lstmask=$last
   xargs -n1 -P${CONCURRENCY:-1} --process-slot-var=XARGS_SLOT -I {} \
-    bash -c '(runtest $XARGS_SLOT $SUITELOGDIR {} $ENVIRONS 2>>$SUITELOGDIR/w$XARGS_SLOT.log)& wait $! ; (true)' < <(
+    bash -c '{ runtest $XARGS_SLOT $SUITELOGDIR {} $ENVIRONS 2>>$SUITELOGDIR/w$XARGS_SLOT.log; }& wait $! ; (true)' < <(
       # test may be .sh files in directory
       find $last -name "*.sh" | sort
       # or .lst suite containing test commands, except those which call other suites

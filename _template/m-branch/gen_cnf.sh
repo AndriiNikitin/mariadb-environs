@@ -31,9 +31,10 @@ shopt -s nullglob
 mkdir -p __workdir
 mkdir -p __datadir
 
-for config_script in __workdir/config_load/*
+[ -d __workdir/config_load ] && for config_script in __workdir/config_load/*
 do
   . $config_script
 done
+
 :
  
