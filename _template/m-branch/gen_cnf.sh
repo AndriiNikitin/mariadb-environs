@@ -27,7 +27,7 @@ lc_messages_dir=__blddir/sql/share
 plugin-dir=__workdir/plugin
 EOL
 
-shopt -s nullglob
+# shopt -s nullglob
 mkdir -p __workdir
 mkdir -p __datadir
 

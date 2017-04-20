@@ -8,7 +8,7 @@
 function build_xargs()
 {
   # if binary is built already - just exit
-  [ -x "$(pwd)/findutils-4.6.0/xargs/xargs" ] && exit
+  [ -x "$(pwd)/findutils-4.6.0/xargs/xargs" ] && return
 
   rm -rf ./findutils-4.6.0
   rm -rf ./findutils-4.6.0.tar.gz
@@ -237,18 +237,27 @@ else
     done
   fi
 
-  # todo count failures / passes from _suite.log
   echo Host=$(hostname) >> "$suitelogdir"/_suite.log
   let seconds=($(date +%s)-start_time)
   echo Concurrency=${CONCURRENCY:-1} >> "$suitelogdir"/_suite.log
   echo Timeout=${TIMEOUT:-1} >> "$suitelogdir"/_suite.log
   echo Duration=$seconds >> "$suitelogdir"/_suite.log
-  echo Duration=$seconds
   declare -r pass_count=$(grep -c 'PASS$' "$suitelogdir"/_suite.log)
   declare -r failure_count=$(grep -c 'FAIL$' "$suitelogdir"/_suite.log)
   echo Passes=$pass_count >> "$suitelogdir"/_suite.log
-  echo Passes=$pass_count
   echo Failures=$failure_count >> "$suitelogdir"/_suite.log
-  echo Failures=$failure_count
+
+  # tail logs for each failure
+  if [ -d $suitelogdir/failures ] ; then
+    for log in $suitelogdir/failures/*.{err,log} ; do
+      echo ====================================================
+      echo $(basename "$log")
+      tail -n 20 "$log"
+    done
+    cat "$suitelogdir"/_suite.log
+  else
+    tail -n 6  "$suitelogdir"/_suite.log
+  fi
+
   ( exit $failure_count )
 fi
