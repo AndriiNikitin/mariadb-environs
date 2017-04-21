@@ -19,7 +19,17 @@ log-error=__datadir/error.log
 
 pid_file=__datadir/p.id
 plugin-dir=__workdir/../_depot/m-tar/__version/lib/plugin
+
+!include __workdir/mysqldextra.cnf
 EOL
+cat > __workdir/mysqldextra.cnf <<EOL
+[mysqld]
+lc_messages_dir=__blddir/sql/share
+plugin-dir=__workdir/plugin
+EOL
+
+# shopt -s nullglob
+mkdir -p __datadir
 
 [ -d __workdir/config_load ] && for config_script in __workdir/config_load/*
 do
@@ -27,4 +37,4 @@ do
 done
 
 :
-
+ 

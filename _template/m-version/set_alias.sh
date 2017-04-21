@@ -8,9 +8,9 @@ MYSQL_SRCDIR=
 MYSQL_EXTRA_CNF=__workdir/mysqldextra.cnf
 MYSQL_BASEDIR=__workdir/../_depot/m-tar/__version
 
-# alias xtrabackup="/farm/m0-bb-10.1-wlad-xtrabackup/build/extra/xtrabackup//xtrabackup"
-# alias xbstream="/farm/m0-bb-10.1-wlad-xtrabackup/build/extra/xtrabackup//xbstream"
-# alias innobackupex="/farm/m0-bb-10.1-wlad-xtrabackup/build/extra/xtrabackup//xtrabackup --innobackupex"
+[ -f __workdir/build/extra/mariabackup//mariabackup ] && alias xtrabackup="__workdir/../_depot/m-tar/__version/mariabackup"
+[ -f __workdir/build/extra/mariabackup//mbstream ]    && alias xbstream="__workdir/../_depot/m-tar/__version/mbstream"
+[ -f __workdir/build/extra/mariabackup//mariabackup ] && alias innobackupex="__workdir/../_depot/m-tar/__version/mariabackup --innobackupex"
 alias mysqld="__workdir/../_depot/m-tar/__version/bin/mysqld"
 alias mysql="__workdir/../_depot/m-tar/__version/bin/mysql"
 alias mysqladmin="__workdir/../_depot/m-tar/__version/bin/mysqladmin"
