@@ -27,6 +27,10 @@ m4-10.1~14054/download.sh
 # download and unpack latest tar build from hasky for 10.1 branch
 ./replant.sh m5-10.1~latest
 m5-10.1~latest/download.sh
+
+# create another test datadir using installed binaries
+./replant.sh m6-system2
+m6-system2/install_db.sh
 ```
 
 ## Working with MariaDB Server environs
