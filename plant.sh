@@ -18,16 +18,22 @@ workdir=$(find . -maxdepth 1 -type d -name "$wwid*" | head -1)
 [[ -d $workdir ]] || { >&2 echo "Empty folder of corresponding format must exist, cannot find $wwid*" ; exit 1; }
 
 
-[[ $workdir =~ ($wwid-)([^\@]+)(\@.+)?$ ]] || { >&2 echo "Couldn't parse format of $workdir, expected $wwid-tag1[@image]" ; exit 1; }
+[[ $workdir =~ ($wwid-)([^\@~]+)([\@~].+)?$ ]] || { >&2 echo "Couldn't parse format of $workdir, expected $wwid-tag1[@image]" ; exit 1; }
 
-[[ -z ${BASH_REMATCH[3]} ]] || image="@image"
+# should get @ubuntu or ~13356 depending on which environ is needed
+image=${BASH_REMATCH[3]}
+image=${image:0:1}
+# now will have @image or ~image to search plant script in plugins
+[[ -z $image ]] || image="${image:0:1}image"
 
 branch=${BASH_REMATCH[2]}
 
 declare -A version_format
 
-version_format['m']="([1-9][0-9]?)(\.)([0-9])(\.)([1-9][0-9]?)"
-version_format['x']="([1-9]?)(\.)([0-9])(\.)([1-9]?)"
+version_format['m']="([1-9][0-9]?)(\.)([0-9])(\.)([1-9]?[0-9])"
+version_format['x']="([1-9]?)(\.)([0-9])(\.)([0-9])"
+version_format['o']="([5-9]?)(\.)([0-9])(\.)([1-9]?[0-9])"
+
 
 plant_script=""
 
