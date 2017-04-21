@@ -1,3 +1,6 @@
 [submodule "_plugin/xtrabackup"]
 	path = _plugin/xtrabackup
 	url = http://github.com/AndriiNikitin/mariadb-environs-xtrabackup
+[submodule "_plugin/hasky"]
+	path = _plugin/hasky
+	url = https://github.com/AndriiNikitin/mariadb-environs-hasky
