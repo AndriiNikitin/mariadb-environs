@@ -11,21 +11,19 @@ socket=__datadir/my.sock
 
 [mysqld]
 server_id=__wid
-lc_messages_dir=__workdir/../_depot/m-tar/__version/share
 port=__port
 socket=__datadir/my.sock
 datadir=__datadir
 log-error=__datadir/error.log
 
 pid_file=__datadir/p.id
-plugin-dir=__workdir/../_depot/m-tar/__version/lib/plugin
 
 !include __workdir/mysqldextra.cnf
 EOL
 cat > __workdir/mysqldextra.cnf <<EOL
 [mysqld]
-lc_messages_dir=__blddir/sql/share
-plugin-dir=__workdir/plugin
+lc_messages_dir=__workdir/../_depot/m-tar/__version/share
+plugin-dir=__workdir/../_depot/m-tar/__version/lib/plugin
 EOL
 
 # shopt -s nullglob
