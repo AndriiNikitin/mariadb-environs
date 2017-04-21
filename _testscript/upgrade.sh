@@ -23,7 +23,7 @@ set -e
 first=yes
 
 for version in $mdbversions ; do
-  if [ $first == yes ] ; then
+  if [ "$first" == yes ] ; then
     m${mid}*/gen_cnf.sh "$mdbconfigs"
     m${mid}*/install.sh $version
     # must sleep a little as on some environments background job will do mysql_upgrade

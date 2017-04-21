@@ -4,6 +4,8 @@
 
 [ $# -ge 1 ] || exit 1
 
+# this is a hack to make it work on older distributions,
+# code with --process-slot-var may be rewritten to avoid this
 # try to build xargs 4.6.0 as we currently rely on --process-slot-var option
 function build_xargs()
 {

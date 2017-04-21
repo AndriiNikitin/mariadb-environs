@@ -17,11 +17,25 @@ innodb_log_file_size=5M
 
 !include /etc/mysqldextra.cnf
 EOL
+
 cat > /etc/mysqldextra.cnf <<EOL
 [mysqld]
 EOL
 
-shopt -s nullglob
+[ ! -z "$1" ] && for o in $1 ; do
+  option_name=${o%%=*}
+  option_value=${o#*=}
+
+  if [ -f __workdir/"$option_name" ] && [ "$option_value" == 1 ] ; then
+    mkdir -p __workdir/config_load
+    cp __workdir/"$option_name"  __workdir/config_load/
+  else
+    echo $o >> /etc/mysqldextra.cnf
+  fi
+done
+
+
+# shopt -s nullglob
 
 [ -d __workdir/config_load ] && for config_script in __workdir/config_load/*
 do
