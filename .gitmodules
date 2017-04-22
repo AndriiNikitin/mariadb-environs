@@ -4,3 +4,6 @@
 [submodule "_plugin/hasky"]
 	path = _plugin/hasky
 	url = https://github.com/AndriiNikitin/mariadb-environs-hasky
+[submodule "_plugin/docker"]
+	path = _plugin/docker
+	url = https://github.com/AndriiNikitin/mariadb-environs-docker
