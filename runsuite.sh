@@ -32,7 +32,6 @@ fi
 
 start_time=$(date +%s)
 CONCURRENCY=${ERN_TEST_CONCURRENCY:-5}
-# this is currently doesn't work and is hardcoded below
 TEST_TIMEOUT=${ERN_TEST_DEFAULT_TIMEOUT:-2100}
 
 declare environs=""
@@ -54,16 +53,16 @@ done
 
 function runtest()
 {
-  local test=$3
-  local testargs="${@:4}"
-  local folder=$(dirname $test)
-  local suitelogdir=$2
-  local workerid=$1
-  local test_start_time=$(date +%s)
+  local -r test="${3/%\ */}"
+  local -r testargs="${3#* }"
+  local -r folder=$(dirname $test)
+  local -r suitelogdir=$2
+  local -r workerid=$1
+  local -r test_start_time=$(date +%s)
 
 function generate_logname()
 {
-  for var in "$@" ; do
+  for var in $@ ; do
     if [[ "$var" == *.sh ]] ; then
       var=$(basename "$var" .sh)
     else
@@ -76,7 +75,7 @@ function generate_logname()
   echo $res
 }
 
-  local logname=$(generate_logname ${test} ${testargs} )
+  local logname=$(generate_logname "$3")
 
   local logfile=$suitelogdir$logname.log
   local errfile=$suitelogdir$logname.err
@@ -107,7 +106,7 @@ function generate_logname()
 
   for last; do
     [ -z "${last}" ] && continue
-    local f=$(ls ./${last}*/set_alias.sh 2>/dev/null)
+    local f=$(ls ./"${last}"*/set_alias.sh 2>/dev/null)
     [ -x "$f" ] && . $f
   done
 
@@ -118,23 +117,23 @@ function generate_logname()
   # check if single file or whole suite
   if [ -z "$suitelogdir" ] ; then
     if [ "$test" == "${test%.*}.lst" ] ; then
-      runsuite.sh $test 2>&1 | tee $errfile
+      runsuite.sh $test 2>&1 | tee "$errfile"
       local -r res=${PIPESTATUS[0]}
     elif [ -x ./$folder/../runtest.sh ] ; then
-      . ./$folder/../runtest.sh $test $workerid 2>&1 | tee $errfile
+      . ./$folder/../runtest.sh $test $workerid 2>&1 | tee "$errfile"
       local -r res=${PIPESTATUS[0]}
     else
-      . $test $testargs $workerid 2>&1 | tee $errfile
+      . $test $testargs $workerid 2>&1 | tee "$errfile"
       local -r res=${PIPESTATUS[0]}
     fi
   else
     # if this is another suite - run correnspondingly
     if [ "$test" == "${test%.*}.lst" ] ; then
-      runsuite.sh $test 2>$errfile >$logfile &
+      runsuite.sh $test 2>"$errfile" >"$logfile" &
     elif [ -x ./$folder/../runtest.sh ] ; then
-      . ./$folder/../runtest.sh $test $workerid 2>$errfile >$logfile &
+      . ./$folder/../runtest.sh $test $workerid 2>"$errfile" >"$logfile" &
     else
-      . $test $testargs $workerid 2>$errfile >$logfile &
+      eval ". $3 $workerid 2>$errfile >$logfile" &
     fi
 
     local -r runpid=$!    # Process Id of the previous running command
@@ -149,7 +148,7 @@ function generate_logname()
   local seconds=0
   let seconds=($(date +%s)-test_start_time)
   echo $(date +"%T") finished with $res in $seconds >> ${suitelogdir}w${workerid}.log
-  echo $(date +"%T") finished with $res in $seconds >> $logfile
+  echo $(date +"%T") finished with $res in $seconds >> "$logfile"
 
   if [ $res -eq 0 ]; then
     echo "$pre ($seconds sec) " PASS
@@ -220,20 +219,30 @@ else
   export ENVIRONS=$environs
   lstmask="${last}/*.lst"
   [ "$last" == "${last%.*}.lst" ] && lstmask=$last
-  xargs -n1 -P${CONCURRENCY:-1} --process-slot-var=XARGS_SLOT -I {} \
-    bash -c '{ runtest $XARGS_SLOT $SUITELOGDIR {} $ENVIRONS 2>>$SUITELOGDIR/w$XARGS_SLOT.log; }& wait $! ; (true)' < <(
-      # test may be .sh files in directory
-      find $last -name "*.sh" | sort
-      # or .lst suite containing test commands, except those which call other suites
-      grep -h . $lstmask 2>/dev/null | grep -v "^\#" 2>/dev/null | grep -v '\.lst';
-  )
+
+  # test may be .sh files in directory
+  find $last -name "*.sh" | sort | \
+    xargs -n1 -P${CONCURRENCY:-1} --process-slot-var=XARGS_SLOT -I xargscmd \
+        bash -c '{ runtest $XARGS_SLOT $SUITELOGDIR xargscmd $ENVIRONS 2>>$SUITELOGDIR/w$XARGS_SLOT.log; }& wait $! ; (true)'
+
   testsresult=$?
+
+  # or .lst suite containing test commands, except those which call other suites (need quote properly)
+  grep -h . $lstmask 2>/dev/null | grep -v "^\#" 2>/dev/null | grep -v '\.lst' | \
+    sed 's/"/"\\""/g;s/.*/"&"/' | \
+    xargs -n1 -P${CONCURRENCY:-1} --process-slot-var=XARGS_SLOT -I xargscmd \
+        bash -c 'runtest $XARGS_SLOT $SUITELOGDIR "xargscmd" $ENVIRONS 2>>$SUITELOGDIR/w$XARGS_SLOT.log& wait $! ; (true)'
+#        bash -c runtest $XARGS_SLOT $SUITELOGDIR xargscmd $ENVIRONS 2>>$SUITELOGDIR/w$XARGS_SLOT.log; }& wait $! ; (true)'
+
+  testsresult=$((testresult+$?))
+
   # now (if no tests were executed) run other suits which may be in $lstmask
   if ! grep -q -E 'PASS$|FAIL$|SKIP$|DISABLED$' "$suitelogdir"/_suite.log ; then
     # - iterate over all sub-suites (if any)
     for subsuite in $(grep -h . $lstmask 2>/dev/null | grep -v "^\#" 2>/dev/null | grep '\.lst'); do
       runtest '' $suitelogdir $subsuite &
       wait $!
+      testsresult=$((testresult+$?))
     done
   fi
 

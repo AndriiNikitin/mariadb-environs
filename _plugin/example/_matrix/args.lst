@@ -1,0 +1,7 @@
+# note that worker id will be added at the end
+_plugin/example/_testscript/args2.sh 0 
+_plugin/example/_testscript/args3.sh 1 1
+_plugin/example/_testscript/args2.sh '2 2'
+_plugin/example/_testscript/args3.sh '3 3 3' '3 3 3'
+_plugin/example/_testscript/args3.sh '4 4 4' 4
+
