@@ -59,7 +59,7 @@ function runtest()
   local -r testargs="${3#* }"
   local -r folder=$(dirname $test)
   local -r suitelogdir=$2
-  local -r workerid=$1
+  local workerid=$1
   local -r test_start_time=$(date +%s)
 
 function generate_logname()
