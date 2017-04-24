@@ -135,7 +135,7 @@ function generate_logname()
     elif [ -x ./$folder/../runtest.sh ] ; then
       . ./$folder/../runtest.sh $test $workerid 2>"$errfile" >"$logfile" &
     else
-      eval ". $3 $workerid 2>$errfile >$logfile" &
+      eval ". $3 $workerid" 2>"$errfile" >"$logfile" &
     fi
 
     local -r runpid=$!    # Process Id of the previous running command
@@ -259,7 +259,7 @@ else
   echo Failures=$failure_count >> "$suitelogdir"/_suite.log
 
   # tail logs for each failure
-  if [ -d "$suitelogdir"/failures ] ; then
+  if [ ! -z "$suitelogdir" ] && [ -d "$suitelogdir"/failures ] ; then
     for f in "$suitelogdir"/failures/*.{err,log} ; do
       echo ====================================================
       echo $(basename "$f")
