@@ -1,1 +1,1 @@
-_testscript/upgrade.sh "5.5 10.2" 0
++_testscript/upgrade.sh "10.0 10.1" 0
