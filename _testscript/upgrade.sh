@@ -23,6 +23,8 @@ set -e
 first=yes
 
 for version in $mdbversions ; do
+  _template/mariadb_pre_upgrade.sh $version | bash -x
+
   if [ "$first" == yes ] ; then
     m${mid}*/gen_cnf.sh "$mdbconfigs"
     m${mid}*/install.sh $version
@@ -31,6 +33,7 @@ for version in $mdbversions ; do
     m${mid}*/status.sh || m${mid}*/startup.sh
     m${mid}*/mysql_upgrade.sh
     m${mid}*/load_sakila.sh
+    m${mid}*/status.sh
     first=no
   else
     m${mid}*/install.sh $version
