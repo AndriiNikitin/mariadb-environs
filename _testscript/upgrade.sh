@@ -24,7 +24,8 @@ first=yes
 
 for version in $mdbversions ; do
   _template/mariadb_pre_upgrade.sh $version | bash -x
-
+  rm -rf /var/lib/mysql/debian-*.flag
+  
   if [ "$first" == yes ] ; then
     m${mid}*/gen_cnf.sh "$mdbconfigs"
     m${mid}*/install.sh $version
