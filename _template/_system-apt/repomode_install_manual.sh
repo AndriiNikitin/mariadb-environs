@@ -21,6 +21,9 @@ PKGLIST="libmysqlclient18 libmariadbclient18 mysql-common mariadb-common \
   mariadb-client-core-$M7MAJOR mariadb-client-$M7MAJOR mariadb-server-core-$M7MAJOR \
   mariadb-server-$M7MAJOR"
 
+[ $M7MAJOR == 10.2 ] && PKGLIST="$PKGLIST libmariadb3"
+[ $M7MAJOR == 10.3 ] && PKGLIST="$PKGLIST libmariadb3"
+
 PKGARRAY=($PKGLIST)
 
 wget -V > /dev/null || apt-get -y install wget
@@ -32,20 +35,31 @@ download () {
         PACKAGE=$1
 
         if [[ $PACKAGE == *common* ]]; then
-                FILE=$PACKAGE\_$M7VER+maria-1~$DISTCODE\_all.deb;
+                FILE=$PACKAGE\_$M7VER+maria~$DISTCODE\_all.deb
+                FILE1=$PACKAGE\_$M7VER+maria-1~$DISTCODE\_all.deb
         else
-                FILE=$PACKAGE\_$M7VER+maria-1~$DISTCODE\_$(detect_amd64).deb;
+                FILE=$PACKAGE\_$M7VER+maria~$DISTCODE\_$(detect_amd64).deb
+                FILE1=$PACKAGE\_$M7VER+maria-1~$DISTCODE\_$(detect_amd64).deb
         fi
 
-        [[ -f $DESTINATION/$FILE ]] || (wget -nv -nc $FOLDER$FILE -P $DESTINATION || { err=$? ; echo "Error ("$err") downloading file: "$FOLDER$FILE 1>&2 ; exit $err; })
+        [ -f "$DESTINATION/$FILE"  ] || \
+        [ -f "$DESTINATION/$FILE1" ] || \
+        wget -nv -nc $FOLDER$FILE -P $DESTINATION || \
+        { err=$?;  wget -nv -nc $FOLDER$FILE1 -P $DESTINATION; } || \
+        { err1=$? ; echo "Error downloading file: $FOLDER$FILE ($err) and $FILE1 ($err1)" 1>&2 ; exit $err; }
 }
 
 for i in ${PKGARRAY[@]}
 do
-  download $i
+  retry 5 download $i
 done
 
-dpkg -i $DESTINATION/*common*$M7VER*$DISTCODE*.deb
+if [ $M7MAJOR == 10.2 ] || [ $M7MAJOR == 10.3 ] ; then
+  dpkg -i $DESTINATION/*common*$M7VER*$DISTCODE*.deb $DESTINATION/libmariadb3*.deb
+else
+  dpkg -i $DESTINATION/*common*$M7VER*$DISTCODE*.deb
+fi
+
 dpkg -i $DESTINATION/lib*client*$M7VER*$DISTCODE*.deb
 
 # this will install only dependancies, excluding upgrades and mysql/mariadb packages
@@ -63,4 +77,6 @@ apt-install-depends() {
 
 apt-install-depends ${PKGLIST[@]}
 
-dpkg -i $DESTINATION/*$M7VER*$DISTCODE*.deb
+# during upgrade we better try few times and hope that it resolves itself
+dpkg -i $DESTINATION/*$DISTCODE*.deb || dpkg -i $DESTINATION/*$DISTCODE*.deb || dpkg -i $DESTINATION/*$DISTCODE*.deb
+

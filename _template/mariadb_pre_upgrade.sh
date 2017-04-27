@@ -8,7 +8,7 @@
 # use on own risk
 
 newversion="$1"
-found=no
+FOUND=no
 
 function dodie()
 {
@@ -25,11 +25,16 @@ function commentout()
 {
   keyword=$1
   value=$2
-  location=$3
   [ -z "$keyword" ] && return
-  [ -z "$location" ] && return
 
-  grep -rniE "^[[:space:]]*${keyword}[[:space:]]*=[[:space:]]*${value}" "${location}" | while read -r triplet ; do
+  [ ! -z "$value" ] && value="[[:space:]]*=[[:space:]]*${value}"
+
+  # not FOUND
+  res=1
+
+  for location in ${@:3} ; do
+    # append /dev/null to trick grep into always printing file names
+    grep -rniE "^[[:space:]]*${keyword}${value}" ${location} /dev/null | while read -r triplet ; do
      file=${triplet%%:*}
      couple=${triplet#*:}
      lineno=${couple%%:*}
@@ -41,18 +46,29 @@ function commentout()
      echo "sed -i '${lineno}s/\(^.*$keyword.*\)/#\ \1/i' $file"
      echo ''
      echo ''
+    done
+    [ ${PIPESTATUS[0]} -eq 0 ] && res=0
   done
-  test ${PIPESTATUS[0]} -eq 0 && found=yes
+  test $res -eq 0 && FOUND=yes
+
+  return $res
 }
 
 if [[ $newversion =~ ^10\.[2|3] ]]
 then
-  commentout archive off /etc/mysql
-  commentout archive 0 /etc/mysql
+  commentout archive off /etc/my*
+  commentout archive 0 /etc/my*
 
-  commentout blackhole off /etc/mysql
-  commentout blackhole 0 /etc/mysql
+  commentout blackhole off /etc/my*
+  commentout blackhole 0 /etc/my*
+
+#  commentout plugin.load.add ha_innodb /etc/mysql && commentout ignore.builtin.innodb '' /etc/mysql
+#  commentout plugin.load ha_innodb /etc/mysql     && commentout ignore.builtin.innodb '' /etc/mysql
+  commentout plugin.load.add ha_innodb /etc/my*   && commentout ignore.builtin.innodb '' /etc/my*
+  commentout plugin.load ha_innodb /etc/my*       && commentout ignore.builtin.innodb '' /etc/my*
+
 fi
+
 
 if [[ $newversion =~ 10\.[2|3] ]] \
   && [ -f /etc/mysql/conf.d/mariadb-enterprise.cnf ] \
@@ -64,10 +80,10 @@ then
     echo 'echo plugin-load-add=auth_socket >> /etc/mysql/conf.d/unix_socket.cnf'
     echo ''
     echo ''
-    found=yes
+    FOUND=yes
 fi
 
-if [ "$found" == no ] ; then
+if [ "$FOUND" == no ] ; then
   echo "## Basic check wasn't able to find known typical issues"
 else
   echo "## Some basic issues have been detected, others may still present - refer documentation, test upgrade, have backup, etc"
