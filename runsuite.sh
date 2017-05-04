@@ -47,7 +47,7 @@ for last; do
     done
 
     f=$(ls ./${last}*/gen_cnf.sh 2>/dev/null)
-    [ -x "$f" ] && . $f
+    [ -x "$f" ] && $f
     f=$(ls ./${last}*/set_alias.sh 2>/dev/null)
     [ -x "$f" ] && . $f
   fi
