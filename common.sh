@@ -14,7 +14,8 @@ declare -r ERN_M_CMAKE_FLAGS="-DWITH_LIBARCHIVE=ON -DPLUGIN_TOKUDB=NO"
 
 # exclude these directories when unpack server tar archive
 # mysql-test takes too long to unpack so we are skipping it by default
-declare -r ERN_M_TAR_EXTRA_FLAGS="--exclude='mysql-test'"
+# declare -r ERN_M_TAR_EXTRA_FLAGS="--exclude='mysql-test'"
+declare -r ERN_M_TAR_EXTRA_FLAGS=""
 
 declare -r ERN_CONTAINER_PREFIX=t
 
@@ -78,6 +79,9 @@ function detect_distname() {
   [[ $distname =~ (CentOS (Linux )?release )([1-9])(\.)([0-9])(.*) ]] && distname="centos"
   [ -z "$distname" ] && grep -qi centos /etc/redhat-release 2>/dev/null && distname=centos
 
+  [ -z "$distname" ] && [ Fedora == "$(cat /etc/*release | grep "^ID=fedora" | head -n1 2>/dev/null)" ] && distname=fedora
+  [ -z "$distname" ] && [ opensuse == "$(cat /etc/*release | grep "^ID=opensuse" | head -n1 2>/dev/null)" ] && distname=opensuse
+
   # now try to detect debian
   if [ -z "$distname" ] ; then 
     distname=$(cat /etc/*release 2>/dev/null | grep "^ID=" | head -n1 2>/dev/null)
@@ -92,6 +96,9 @@ function detect_distname() {
 function detect_distcode() {
   # jessie
   local distcode=$(cat /etc/*release | grep "^DISTRIB_CODENAME=" | head -n1 2>/dev/null)
+
+  [ -z "$distcode" ] && [ Fedora == "$(cat /etc/*release | grep "^ID=fedora" | head -n1 2>/dev/null)" ] && distcode=fedora
+  [ -z "$distcode" ] && [ opensuse == "$(cat /etc/*release | grep "^ID=opensuse" | head -n1 2>/dev/null)" ] && distcode=opensuse
 
   if [ ! -z "$distcode" ] ; then
     distcode=${distcode#DISTRIB_CODENAME=}
@@ -118,6 +125,12 @@ function detect_distver() {
 
   elif [ "$distname" == ubuntu ] ; then
     distver=$(cat /etc/*release | grep -oP "^VERSION_ID=\K.*")
+  elif [ "$distname" == fedora ] ; then
+    distver=$(cat /etc/*release | grep -oP "^VERSION_ID=\K.*")
+  elif [ "$distname" == opensuse ] ; then
+    distver=$(cat /etc/*release | grep -oP "^VERSION = \K.*")
+    # 42.2 => 42
+    distver=${distver%%.*}
   elif [ "$distname" == centos ] ; then
     [[ $(cat /etc/centos-release 2>/dev/null) =~ (CentOS (Linux )?release )([1-9])(\.)([0-9])(.*) ]] && distver="${BASH_REMATCH[3]}"
     [ -z "$distver" ] && grep -qi centos /etc/redhat-release 2>/dev/null && distver=5
@@ -142,8 +155,10 @@ function detect_distnameN() {
 # prints yum or apt
 function detect_yum() {
   case $(detect_distname) in 
-    centos) echo yum ;;
-    *) echo apt;;
+    opensuse) echo zypp ;;
+    debian) echo apt;;
+    ubuntu) echo apt;;
+    *) echo yum;;
   esac
 }
 
