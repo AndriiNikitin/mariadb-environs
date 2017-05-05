@@ -7,3 +7,6 @@
 [submodule "_plugin/docker"]
 	path = _plugin/docker
 	url = https://github.com/AndriiNikitin/mariadb-environs-docker
+[submodule "_plugin/oracle-mysql"]
+	path = _plugin/oracle-mysql
+	url = https://github.com/AndriiNikitin/mariadb-environs-oracle-mysql
