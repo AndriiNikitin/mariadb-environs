@@ -10,8 +10,8 @@ m1-system/install.sh 10.0.29
 m1-system/install.sh 10.0
 m1-system/install.sh 10.1e
 
-# download and unpack tar 10.1.30
-./replant.sh m2-10.1.30
+# download and unpack tar 10.1.23
+./replant.sh m2-10.1.23
 m2-10.1.30/download.sh
 
 # clone and build git branch 10.1
