@@ -31,6 +31,22 @@ EOL
 mkdir -p __workdir
 mkdir -p __datadir
 
+[ ! -z "$1" ] && for o in $1 ; do
+  option_name=${o%%=*}
+  option_value=${o#*=}
+
+  if [ -f __workdir/"$option_name" ] && [ "$option_value" == 1 ] ; then
+    mkdir -p __workdir/config_load
+    cp __workdir/"$option_name"  __workdir/config_load/
+  else
+    echo $o >> __workdir/mysqldextra.cnf
+  fi
+done
+
+
+# shopt -s nullglob
+mkdir -p __datadir
+
 [ -d __workdir/config_load ] && for config_script in __workdir/config_load/*
 do
   . $config_script
