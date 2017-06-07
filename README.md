@@ -1,6 +1,28 @@
 # mariadb-environs
 Generate scripts to deploy, configure and test your MariaDB-related cross-products, cross-features combinations
 
+The main idea is that products may have different environs:
+- built from source code
+- downloaded tar version
+- installed server binaries
+
+Each product has 'code character':
+- m - MariaDB
+- o - Oracle MySQL
+- x - Percona xtrabackup
+...
+
+Using conventions, user creates corresponding folders (environ), e.g. :
+
+- m1-10.2/ git branch for MariaDB
+- m2-10.2.6/ MariaDB tar distribution
+- o1-5.7.18/ MySQL tar distribution
+- x1-2.4.7 tar distribution for Xtrabackup
+
+Now with corresponding plugin user can use the same approach for creating environs inside docker (choose any base image from dockerhub, just replace ':' with '~'):
+- m1-10.2@ubuntu~16.04
+- m2-10.2@centos~7
+
 ## Synopsis deploying MariaDB Server
 ```
 # (some functionality below works only with plugins)
@@ -8,7 +30,6 @@ Generate scripts to deploy, configure and test your MariaDB-related cross-produc
 ./replant.sh m1-system
 m1-system/install.sh 10.0.29
 m1-system/install.sh 10.0
-m1-system/install.sh 10.1e
 
 # download and unpack tar 10.1.23
 ./replant.sh m2-10.1.23
