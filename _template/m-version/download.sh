@@ -9,5 +9,5 @@ FILE=ftp://ftp.hosteurope.de/mirror/archive.mariadb.org/mariadb-__version/bintar
 mkdir -p __workdir/../_depot/m-tar/__version
 
 cd __workdir/../_depot/m-tar/__version
-[[ -f $(basename $FILE) ]] || { wget -nc $FILE && tar -zxf $(basename $FILE) ${ERN_M_TAR_EXTRA_FLAGS:-\--exclude='mysql-test'} --strip 1; }
+[[ -f $(basename $FILE) ]] || { wget -nc $FILE && tar -zxf $(basename $FILE) ${ERN_M_TAR_EXTRA_FLAGS} --strip 1; }
 cd __workdir/..

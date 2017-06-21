@@ -19,7 +19,7 @@ if [[ -d $workdir ]]; then
   || [[ "$(ls -A $workdir | grep -E -v '(^dt$|^bkup$)')" ]] \
   ) && ((>&2 echo "Non-empty $workdir aready exists, expected unassigned worker id") ; exit 1)
 
-  [[ $workdir =~ ($wwid-)([1-9][0-9]?)(\.)([0-9])(\.)([1-9][0-9]?) ]] || ((>&2 echo "Couldn't parse format of $workdir, expected $wwid-version") ; exit 1)
+  [[ $workdir =~ ($wwid-)([1-9][0-9]?)(\.)([0-9])(\.)([1-9]?[0-9]) ]] || ((>&2 echo "Couldn't parse format of $workdir, expected $wwid-version") ; exit 1)
   version=${BASH_REMATCH[2]}.${BASH_REMATCH[4]}.${BASH_REMATCH[6]}
 fi
 
@@ -29,13 +29,13 @@ tar=${2-$version}
 # we got unzipped tar already - try to retrieve its version
 if [[ -d $tar ]]; then
   actual_version=$($tar/bin/mysqld --version)
-  [[ $actual_version =~ (.*)(:space:)([1-9][0-9]?)(\.)([0-9])(\.)([1-9][0-9]?)(.*) ]] || ((>&2 echo "Couldn't detect version of mysql") ; exit 1)
+  [[ $actual_version =~ (.*)(:space:)([1-9][0-9]?)(\.)([0-9])(\.)([1-9]?[0-9])(.*) ]] || ((>&2 echo "Couldn't detect version of mysql") ; exit 1)
   actual_version = ${BASH_REMATCH[2]}.${BASH_REMATCH[3]}.${BASH_REMATCH[4]}
 
   [[ -z $version ]] || [[ $version == $actual_version ]] || ((>&2 echo "Actual version doesn't match requested folder") ; exit 1)
   version=$actual_version
 else 
-  [[ $tar =~ ([1-9][0-9]?)(\.)([0-9])(\.)([1-9][0-9]?) ]] || ((>&2 echo "Invalid second parameter ($tar), expected version, e.g. 10.1.20 ") ; exit 1)
+  [[ $tar =~ ([1-9][0-9]?)(\.)([0-9])(\.)([1-9]?[0-9]) ]] || ((>&2 echo "Invalid second parameter ($tar), expected version, e.g. 10.1.20 ") ; exit 1)
 
   [[ -z $version ]] || [[ $version == $tar ]] || ((>&2 echo "Scond parameter must match version in pre-created folder") ; exit 1)
   version=$tar
