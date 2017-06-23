@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-[ -f common.sh ] && { >&2 echo 'Script must be run from environs ruoot folder'; exit 2; }
+[ -f common.sh ] || { >&2 echo 'Script must be run from environs root folder'; exit 2; }
 
 for plugin in "$@" ; do
   if [ $(find plugin/$plugin -maxdepth 1 -type d -empty | wc -l) -eq 0 ] ; then
