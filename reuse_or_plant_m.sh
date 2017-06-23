@@ -8,7 +8,7 @@ for wid in m{0..9} ; do
   ls $wid-$1 &> /dev/null || continue
 
   # found environ, assume it is ready for usage - print and exit
-  echo $wid-$1
+  echo $wid
   exit 0
 done
 
@@ -24,7 +24,7 @@ if [ -z "$empty_slot" ] ; then
   exit 1;
 else
   mkdir $empty_slot-$1
-  echo $empty_slot-$1
+  echo $empty_slot
   ./plant.sh $empty_slot-$@
 fi
 

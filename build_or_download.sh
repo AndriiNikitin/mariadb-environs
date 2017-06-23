@@ -11,7 +11,7 @@ fi
 if [ -f $1*/download.sh ] ; then
   $1*/download.sh
 # cmake/build only if no build folder exists
-elif ! ls $1*/build 2&>/dev/null ; then
+elif ! ls $1*/build &>/dev/null ; then
   $1*/checkout.sh
   $1*/cmake.sh
   $1*/build.sh
