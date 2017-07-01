@@ -26,13 +26,17 @@ lc_messages_dir=__workdir/../_depot/m-tar/__version/share
 plugin-dir=__workdir/../_depot/m-tar/__version/lib/plugin
 EOL
 
-[ ! -z "$1" ] && for o in $1 ; do
+[ ! -z "$1" ] && for o in $@ ; do
   option_name=${o%%=*}
   option_value=${o#*=}
 
-  if [ -f __workdir/"$option_name" ] && [ "$option_value" == 1 ] ; then
-    mkdir -p __workdir/config_load
-    cp __workdir/"$option_name"  __workdir/config_load/
+  if [ -f __workdir/"$option_name".sh ] ; then
+    if [ "$option_value" == 1 ] ; then
+      mkdir -p __workdir/config_load
+      cp __workdir/"$option_name".sh  __workdir/config_load/
+    elif [ "$option_value" == 0 ] ; then
+      rm -f __workdir/config_load/$option_name.sh
+    fi
   else
     echo $o >> __workdir/mysqldextra.cnf
   fi
@@ -47,5 +51,5 @@ do
   . $config_script
 done
 
-:
+mkdir -p __workdir/config_load
  

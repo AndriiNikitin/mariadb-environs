@@ -26,4 +26,4 @@ if [ ! -z "$oldworkdir" ] && [ -d "$oldworkdir" ] ; then
 fi
 
 mkdir "$1"
-./plant.sh "$1"
+./plant.sh "$@"

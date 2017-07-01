@@ -23,12 +23,12 @@ wid=${wwid:1:100}
 
 port=$((3306+$wid))
 
-if [[ "$wwid" == "$1" ]] ; then
-  [ ! -z "$2" ] || { >&2 echo "Expected source directory as second parameter"; exit 2; }
-  if ls ${wwid}* 1> /dev/null 2>&1; then
-    >&2 echo "Environ $wwid already has directory - expected free environ id"; 
-    exit 2;
-  fi
+if [ "$#" -gt 1 ] ; then
+# [ ! -z "$2" ] || { >&2 echo "Expected source directory as second parameter"; exit 2; }
+# if ls ${wwid}* 1> /dev/null 2>&1; then
+#   >&2 echo "Environ $wwid already has directory - expected free environ id"; 
+#    exit 2;
+#  fi
   src=$2
   bld=${3-$src}
 

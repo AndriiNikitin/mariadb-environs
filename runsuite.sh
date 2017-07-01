@@ -47,8 +47,14 @@ for last; do
     done
 
     f=$(ls ./${last}*/gen_cnf.sh 2>/dev/null)
-    [ -x "$f" ] && $f
-    f=$(ls ./${last}*/set_alias.sh 2>/dev/null)
+    extra_matrix_options=""
+    if [ -x "$f" ] ; then
+      for o in $(printenv | grep ^matrix_ ) ; do
+        extra_matrix_options="$extra_matrix_options ${o#matrix_}";
+      done
+      $f $extra_matrix_options
+    fi
+    f=$(ls ./${last}-*/set_alias.sh 2>/dev/null)
     [ -x "$f" ] && . $f
   fi
 done
@@ -200,18 +206,18 @@ if [ ! -d "$last" ] && [ "$last" != "${last%.*}.lst" ] ; then
 #  export TEST_TIMEOUT
   bash -c "runtest '' '' $last $environs"
 else
+  suitelogdir=log/$(basename "${last}")-$(date +'%y%m%d%H%M%S')/
+  mkdir -p $suitelogdir
+
   if [ -f ./${last}/_scope.sh ]; then
     # execute _scope.sh script with the latest environ which has config_folder
     for ((i=$#; i>0; i--)); do
       if config_exists ${!i} ; then
-        . ./${last}/_scope.sh ${!i}
+        . ./${last}/_scope.sh ${!i} >> "$suitelogdir"/_suite.log
         break
       fi
     done
   fi
-
-  suitelogdir=log/$(basename "${last}")-$(date +'%y%m%d%H%M%S')/
-  mkdir -p $suitelogdir
 
   echo "starting suite $last. Check $suitelogdir for logs"
 
@@ -249,6 +255,7 @@ else
   fi
 
   echo Host=$(hostname) >> "$suitelogdir"/_suite.log
+  echo Extra=${extra_matrix_options} >> "$suitelogdir"/_suite.log
   let seconds=($(date +%s)-start_time)
   echo Concurrency=${CONCURRENCY:-1} >> "$suitelogdir"/_suite.log
   echo Timeout=${TIMEOUT:-1} >> "$suitelogdir"/_suite.log
@@ -271,6 +278,6 @@ else
     cat  "$suitelogdir"/failures/retest.lst
   fi
 
-  tail -n 6  "$suitelogdir"/_suite.log
+  tail -n 7  "$suitelogdir"/_suite.log
   ( exit $failure_count )
 fi
