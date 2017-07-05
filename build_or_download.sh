@@ -2,7 +2,7 @@
 set -e
 [ -z "$1" ] && exit 1
 
-if [ "$(find . -maxdepth 1 -type d -name "m$wid*" | wc -l)" -ne 1 ] ; then
+if [ "$(find . -maxdepth 1 -type d -name "$1*" | wc -l)" -ne 1 ] ; then
   >&2 echo "one and only one folder must exist with prefix $1"
   exit 2
 fi
