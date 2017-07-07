@@ -1,2 +1,2 @@
 #!/bin/bash
-mysql -BN -e "$@"
+mysql -BN -e "$@" test

@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ "$#" -eq 0 ]; then 
-  mysqldump --all-databases > __workdir/dump.sql
+  mysqldump --all-databases
 else
-  mysqldump "$@" > __workdir/dump.sql
+  mysqldump "$@"
 fi
