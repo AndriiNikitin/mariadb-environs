@@ -42,14 +42,13 @@ EOL
   fi
 done
 
+(
+shopt -s nullglob
+mkdir -p __workdir/config_load
 
-# shopt -s nullglob
-mkdir -p __datadir
-
-[ -d __workdir/config_load ] && for config_script in __workdir/config_load/*
+for config_script in __workdir/config_load/*
 do
   . $config_script
 done
-
-mkdir -p __workdir/config_load
+)
  
