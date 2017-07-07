@@ -1,5 +1,5 @@
 #!/bin/bash
-for eid in $(cat ~/spd/cluster1/nodes.lst) ; do
+for eid in $(cat __clusterdir/nodes.lst) ; do
   echo -n $eid : 
   echo $($eid*/install_db.sh)
 done
