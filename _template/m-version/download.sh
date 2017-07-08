@@ -19,7 +19,7 @@ trap cleanup INT TERM
 
 if [ ! -f "$(basename $file)"  ] ; then
   echo downloading "$file"
-  wget -nc $file &
+  wget -q -np -nc $file &
   wgetpid=$!
   while kill -0 $wgetpid 2>/dev/null ; do
     sleep 10
