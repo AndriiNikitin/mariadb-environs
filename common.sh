@@ -8,7 +8,7 @@ declare -i -r ERN_TEST_DEFAULT_TIMEOUT=300
 # your personal token from Enterprise my_portal
 declare -r ERN_ENTERPRISE_TOKEN=xxxx-xxxx
 # these profiles in _template folders will be planted
-declare -r ERN_PLUGINS="galera docker enterprise configure replication xtrabackup oracle-mysql sakila hasky maxscale"
+declare -r ERN_PLUGINS="galera docker enterprise configure replication xtrabackup oracle-mysql sakila hasky maxscale cluster spider"
 # use these flags when compiling from source
 declare -r ERN_M_CMAKE_FLAGS="-DWITH_LIBARCHIVE=ON -DPLUGIN_TOKUDB=NO"
 
