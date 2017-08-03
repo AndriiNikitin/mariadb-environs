@@ -4,3 +4,5 @@
 # yum --showduplicates list MariaDB-server | expand
 
 yum -y install MariaDB-server MariaDB-client
+
+[ -z $3 ] || yum -y install MariaDB-$3
