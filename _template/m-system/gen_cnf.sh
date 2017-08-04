@@ -6,14 +6,17 @@ user=root
 port=3306
 socket=__datadir/my.sock
 
+[mysqld_safe]
+skip-syslog
+
 [mysqld]
 server_id=__wid
 port=3306
 datadir=__datadir
 socket=__datadir/my.sock
 pid_file=__datadir/p.id
-
-innodb_log_file_size=5M
+innodb_log_file_size=15M
+log-error=/var/lib/mysql/error.log
 
 !include /etc/mysqldextra.cnf
 EOL
@@ -26,9 +29,9 @@ EOL
   option_name=${o%%=*}
   option_value=${o#*=}
 
-  if [ -f __workdir/"$option_name" ] && [ "$option_value" == 1 ] ; then
+  if [ -f __workdir/"$option_name".sh ] && [ "$option_value" == 1 ] ; then
     mkdir -p __workdir/config_load
-    cp __workdir/"$option_name"  __workdir/config_load/
+    cp __workdir/"$option_name".sh  __workdir/config_load/
   else
     echo $o >> /etc/mysqldextra.cnf
   fi
