@@ -3,7 +3,7 @@
 . common.sh
 
 if [[ "$(detect_yum)" == apt ]]; then
-  apt-get update && apt-get install -y --no-install-recommends wget vim m4 ca-certificates curl libodbc1  libxml2 libjudydebian1 
+  apt-get update && apt-get install -y --no-install-recommends wget vim m4 ca-certificates curl libodbc1  libxml2 libjudydebian1 sudo
 #  adduser galera-3 gawk iproute init-system-helpers libaio1 libclass-isa-perl libdbd-mysql-perl \
 #  libdbi-perl libgdbm3 libhtml-template-perl libjemalloc1 libpopt0 \
 #  libreadline5 libsigsegv2 libswitch-perl libwrap0 lsof perl perl-modules \
@@ -11,9 +11,9 @@ if [[ "$(detect_yum)" == apt ]]; then
 
   apt-get clean
 elif [[ "$(detect_yum)" == yum ]]; then
-  yum install -y openssl vim ca-certificates m4 wget curl findutils
+  yum install -y openssl vim ca-certificates m4 wget curl findutils sudo
 elif [[ "$(detect_yum)" == zypp ]]; then
-  zypper install -y openssl vim ca-certificates m4 wget curl findutils
+  zypper install -y openssl vim ca-certificates m4 wget curl findutils sudo
 else 
   echo "Cannot determine distro" 1>&2; exit 1;
 fi

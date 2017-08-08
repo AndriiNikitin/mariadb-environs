@@ -1,3 +1,3 @@
 #!/bin/bash
-yum remove -y MariaDB-server MariaDB-client
+yum remove -y MariaDB*
 yum clean all

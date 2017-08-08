@@ -1,7 +1,4 @@
 #!/bin/bash
-# DATADIR=__workdir/dt
-# MYSQLD_DATADIR=/farm/m0-bb-10.1-wlad-xtrabackup/dt
-# mysql_datadir=$DATADIR
 MYSQL_BLDDIR=
 MYSQL_SRCDIR= 
 
@@ -11,6 +8,7 @@ MYSQL_BASEDIR=__workdir/../_depot/m-tar/__version
 [ -f __workdir/../_depot/m-tar/__version/bin/mariabackup ] && alias xtrabackup="__workdir/../_depot/m-tar/__version/bin/mariabackup"
 [ -f __workdir/../_depot/m-tar/__version/bin/mbstream ]    && alias xbstream="__workdir/../_depot/m-tar/__version/bin/mbstream"
 [ -f __workdir/../_depot/m-tar/__version/bin/mariabackup ] && alias innobackupex="__workdir/../_depot/m-tar/__version/bin/mariabackup --innobackupex"
+[ -f __workdir/../_depot/m-tar/__version/bin/mariabackup ] && alias mariabackup="__workdir/../_depot/m-tar/__version/bin/mariabackup"
 alias mysqld="__workdir/../_depot/m-tar/__version/bin/mysqld"
 alias mysql="__workdir/../_depot/m-tar/__version/bin/mysql"
 alias mysqladmin="__workdir/../_depot/m-tar/__version/bin/mysqladmin"

@@ -9,7 +9,7 @@ mode=$2
 FOLDER=$(_system/repomode_url_${mode}.sh $M7VER)
 DESTINATION=_depot/m-system/$(detect_distnameN)/$M7VER$mode
 
-PKGLIST="common compat shared client server"
+PKGLIST="common compat shared client server $3"
 PKGARRAY=($PKGLIST)
 wget -V > /dev/null || yum -y install wget
 mkdir -p $DESTINATION

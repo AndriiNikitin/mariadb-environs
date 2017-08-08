@@ -27,4 +27,4 @@ else
   __workdir/../_system/repomode_configure.sh $M7MAJOR
 fi
 
-__workdir/../_system/repomode_install_${mode%?}*.sh $M7VER ${mode}
+__workdir/../_system/repomode_install_${mode%?}*.sh $M7VER ${mode} $2
