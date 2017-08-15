@@ -13,6 +13,7 @@
 # $3 (only if $2 present) - build directory (if differes from $2)
 
 set -e
+set -x
 
 . common.sh
 
@@ -52,7 +53,7 @@ else
   src=$(pwd)/_depot/m-branch/$branch
 
   # check if source directory is not empty
-  if [[ ! -z "$src" ]] && [[ -d "$src" ]] && [ "$(ls -A ${src})" ]; then
+  if [[ ! -z "$src" ]] && [[ -d "$src" ]] && ls -A ${src} &>/dev/null; then
     srcbranch=$(cd $src && git branch | grep \* | cut -d ' ' -f2)
     [[ -z $branch ]] || [[ $branch == $srcbranch ]] || {>&2 echo "Actual branch $srcbranch doesn't match $branch" ; exit 1;}
   fi
