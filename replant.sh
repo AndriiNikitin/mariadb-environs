@@ -17,7 +17,7 @@ oldworkdir=$(find . -maxdepth 1 -type d -name "$wwid*" | head -1)
 [ $(find . -maxdepth 1 -path ./$wwid\* | wc -l) -le 1 ] || { >&2 echo "Found several directories matching $wwid*" ; exit 1; }
 
 if [ ! -z "$oldworkdir" ] && [ -d "$oldworkdir" ] ; then
-  echo attempting to clean $oldworkdir, some errors below may be ignored
+#  echo attempting to clean $oldworkdir, some errors below may be ignored
   for cleanupscript in "$oldworkdir"/*cleanup.sh ; do
     [ -x $cleanupscript ] && $cleanupscript
   done

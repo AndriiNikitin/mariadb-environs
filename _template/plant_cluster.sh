@@ -10,7 +10,7 @@ clusterdir="$(pwd)"/"$1"
 
 mkdir -p ${clusterdir}
 
-for filename in _template/cluster/* ; do
+for filename in _template/cluster/*.sh ; do
   MSYS2_ARG_CONV_EXCL="*" m4 -D__clusterdir=${clusterdir} $filename > ${clusterdir}/$(basename $filename)
 done
 

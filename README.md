@@ -68,6 +68,8 @@ m2*/shutdown.sh
 ```
 ## Other related products
 ```
+# enable xtrabackup plugin
+./get_plugin.sh xtrabackup
 # download tar xtrabackup
 ./replant.sh x1-2.3.6
 x1-2.3.6/download.sh
@@ -78,7 +80,11 @@ x2-system/install.sh 2.3.6
 x2-system/install.sh 2.3.7e
 
 # download and unpack tar build oracle mysql
+# enable plugin
+./get_plugin.sh oracle-mysql
+# generate scripts
 ./replant.sh o1-5.7.17
+# download
 o1-5.7.17/download.sh
 ./replant.sh o2-5.6.32
 o2-5.6.32/download.sh
