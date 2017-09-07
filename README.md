@@ -89,3 +89,28 @@ o1-5.7.17/download.sh
 ./replant.sh o2-5.6.32
 o2-5.6.32/download.sh
 ```
+## Plugins
+#### galera  https://github.com/AndriiNikitin/mariadb-environs-galera
+Quickly setup local galera cluster
+
+#### maxscale  https://github.com/AndriiNikitin/mariadb-environs-maxscale
+Deploy maxscale and generate configuration files for galera or replication clusters
+
+#### oracle-mysql  https://github.com/AndriiNikitin/mariadb-environs-oracle-mysql
+Download/setup local MySQL Server
+
+#### xtrabackup  https://github.com/AndriiNikitin/mariadb-environs-xtrabackup
+Download/setup xtrabackup
+Run xtrabackup .sh tests on MariaDB server (either with xtrabackup or mariabackup)
+
+#### docker  https://github.com/AndriiNikitin/mariadb-environs-docker
+Setup environs in docker images
+
+#### spider  https://github.com/AndriiNikitin/mariadb-environs-xtrabackup
+Quickly setup local spider cluster
+
+#### travis  https://github.com/AndriiNikitin/mariadb-environs-travis
+Submit build request to Travis-CI and get status later
+
+#### hasky  https://github.com/AndriiNikitin/mariadb-environs-hasky
+Download/setup environ from latest MariaDB labs build
