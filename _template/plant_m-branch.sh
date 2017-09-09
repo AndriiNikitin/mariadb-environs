@@ -13,7 +13,6 @@
 # $3 (only if $2 present) - build directory (if differes from $2)
 
 set -e
-set -x
 
 . common.sh
 
