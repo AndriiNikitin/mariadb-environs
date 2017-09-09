@@ -99,6 +99,9 @@ Deploy maxscale and generate configuration files for galera or replication clust
 #### oracle-mysql  https://github.com/AndriiNikitin/mariadb-environs-oracle-mysql
 Download/setup local MySQL Server
 
+#### myrocks https://github.com/AndriiNikitin/mariadb-environs-myrocks
+Clone/build/setup MyRocks Server
+
 #### xtrabackup  https://github.com/AndriiNikitin/mariadb-environs-xtrabackup
 Download/setup xtrabackup
 Run xtrabackup .sh tests on MariaDB server (either with xtrabackup or mariabackup)
