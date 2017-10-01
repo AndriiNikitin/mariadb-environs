@@ -1,2 +1,2 @@
 #!/bin/bash
-mysqladmin shutdown && sleep 5
+sudo mysqladmin shutdown && sleep 5

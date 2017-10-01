@@ -1,2 +1,2 @@
 #!/bin/bash
-mysqladmin --wait=3 ping
+sudo mysqladmin --wait=3 ping

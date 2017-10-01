@@ -1,6 +1,6 @@
 #!/bin/bash
-# mkdir -p /etc/mysql
-cat > /etc/my.cnf <<EOL
+
+cat > __workdir/my.cnf <<EOL
 [client]
 user=root
 port=3306
@@ -18,10 +18,10 @@ pid_file=__datadir/p.id
 innodb_log_file_size=15M
 log-error=/var/lib/mysql/error.log
 
-!include /etc/mysqldextra.cnf
+!include __workdir/mysqldextra.cnf
 EOL
 
-cat > /etc/mysqldextra.cnf <<EOL
+cat > __workdir/mysqldextra.cnf <<EOL
 [mysqld]
 EOL
 
@@ -33,7 +33,7 @@ EOL
     mkdir -p __workdir/config_load
     cp __workdir/"$option_name".sh  __workdir/config_load/
   else
-    echo $o >> /etc/mysqldextra.cnf
+    echo $o >> __workdir/mysqldextra.cnf
   fi
 done
 

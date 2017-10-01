@@ -1,2 +1,2 @@
 #!/bin/bash
-mysqladmin status
+sudo mysqladmin status

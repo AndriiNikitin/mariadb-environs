@@ -1,4 +1,6 @@
 #!/bin/bash
+exit 0
+
 __workdir/kill9.sh
 # this should fail but we try in case if pid file is accidentally removed
 if [ -f /etc/mysql/my.cnf ] || [ -f /etc/my.cnf ] ; then 
