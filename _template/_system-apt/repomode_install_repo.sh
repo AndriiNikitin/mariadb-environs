@@ -14,7 +14,7 @@ if [ "$3" == galera ] ; then
   [ -z "$4" ] || extra=mariadb-$4-$M7MAJOR
 
   if [ "$M7MAJOR" == 5.5 ] ||  [ "$M7MAJOR" == 10.0 ] ; then
-    apt-get install -y mariadb-galera-server-$M7MAJOR mariadb-client-$M7MAJOR mariadb-server-core-$M7MAJOR $extra
+    apt-get install -y mariadb-galera-server-$M7MAJOR mariadb-client-$M7MAJOR $extra
   else
     apt-get install -y mariadb-server-$M7MAJOR mariadb-client-$M7MAJOR mariadb-server-core-$M7MAJOR $extra
   fi
