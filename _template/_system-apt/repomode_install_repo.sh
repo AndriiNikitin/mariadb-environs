@@ -10,13 +10,17 @@ debconf-set-selections <<< 'mariadb-server-$M7MAJOR mysql-server/root_password_a
 
 set -e
 
-apt-get install -y mariadb-server-$M7MAJOR mariadb-client-$M7MAJOR mariadb-server-core-$M7MAJOR
+if [ "$3" == galera ] ; then
+  [ -z "$4" ] || extra=mariadb-$4-$M7MAJOR
 
-if [ ! -z $3 ] ; then
-  if [ "$3" != galera ] || [ "$M7MAJOR" == 5.5 ] ||  [ "$M7MAJOR" == 10.0 ] ; then
-    apt-get install -y mariadb-$3-$M7MAJOR
+  if [ "$M7MAJOR" == 5.5 ] ||  [ "$M7MAJOR" == 10.0 ] ; then
+    apt-get install -y mariadb-galera-server-$M7MAJOR mariadb-client-$M7MAJOR mariadb-server-core-$M7MAJOR $extra
   else
-    :
+    apt-get install -y mariadb-server-$M7MAJOR mariadb-client-$M7MAJOR mariadb-server-core-$M7MAJOR $extra
   fi
+else
+  [ -z "$3" ] || extra=mariadb-$3-$M7MAJOR
+  [ -z "$4" ] || extra="$extra mariadb-$4-$M7MAJOR"
+  apt-get install -y mariadb-server-$M7MAJOR mariadb-client-$M7MAJOR mariadb-server-core-$M7MAJOR $extra
 fi
 :

@@ -3,15 +3,19 @@
 set -e
 # # TODO upgrade may fail without this - troubleshoot
 # yum --showduplicates list MariaDB-server | expand
+# yum -y install MariaDB-server MariaDB-client 
 
-yum -y install MariaDB-server MariaDB-client 
-
-if [ ! -z $3 ] ; then
-  M7VER=$1
-  M7MAJOR=${M7VER%\.*}
-  if [ "$3" != galera ] || [ "$M7MAJOR" == 5.5 ] || [ "$M7MAJOR" == 10.0 ] ) ; then
-    yum -y install MariaDB-$3
+M7VER=$1
+M7MAJOR=${M7VER%\.*}
+if [ "$3" == galera ] ; then
+  [ -z "$4" ] || extra=MariaDB-$4
+  if [ "$M7MAJOR" == 5.5 ] || [ "$M7MAJOR" == 10.0 ] ; then
+    yum -y install MariaDB-galera-server MariaDB-client $extra
   else
-    :  # do nothing 10.1+ have galera already
+    yum -y install MariaDB-server MariaDB-client $extra
   fi
+else
+  [ -z "$3" ] || extra=MariaDB-$3
+  [ -z "$4" ] || extra="$extra MariaDB-$4"
+  yum -y install MariaDB-server MariaDB-client $extra
 fi
