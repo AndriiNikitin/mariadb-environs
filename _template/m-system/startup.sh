@@ -1,3 +1,4 @@
 #!/bin/bash
-sudo mysqld_safe --skip-syslog "$@" &
+# use which to work around MDEV-13978 mysqld_safe may incorrectly detect basedir when started as script
+sudo $(which mysqld_safe) --skip-syslog "$@" &
 __workdir/wait_respond.sh
