@@ -9,7 +9,7 @@ M7MAJOR=$1
 if [ "$3" == galera ] ; then
   [ -z "$4" ] || extra=MariaDB-$4
   if [ "$M7MAJOR" == 5.5 ] || [ "$M7MAJOR" == 10.0 ] ; then
-    yum -y install MariaDB-Galera MariaDB-client $extra
+    yum -y install MariaDB-Galera-server MariaDB-client $extra
   else
     yum -y install MariaDB-server MariaDB-client $extra
   fi
