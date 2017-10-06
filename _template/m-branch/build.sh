@@ -1,6 +1,6 @@
 #!/bin/bash
 cd __srcdir
-git pull
+# git pull
 
 mkdir -p __blddir
 
