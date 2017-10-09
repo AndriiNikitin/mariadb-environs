@@ -31,9 +31,15 @@ branch=${BASH_REMATCH[2]}
 declare -A version_format
 
 version_format['m']="([1-9][0-9]?)(\.)([0-9])(\.)([1-9]?[0-9])"
+# xtrabackup
 version_format['x']="([1-9]?)(\.)([0-9])(\.)([0-9])"
+# oracle-mysql
 version_format['o']="([5-9]?)(\.)([0-9])(\.)([1-9]?[0-9])"
+# wsrep_mysql
+version_format['w']="([5-9]?)(\.)([0-9])((\.)([1-9]?[0-9]))?(-[1-9][0-9]\.[1-9][0-9]?)?"
+# rocksdb
 version_format['r']="([5-9]?)(\.)([0-9])(\.)([1-9]?[0-9])"
+# maxscale
 version_format['s']="([1-9]?)(\.)([0-9])(\.)([1-9]?[0-9])"
 
 
