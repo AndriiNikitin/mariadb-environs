@@ -15,7 +15,7 @@ alias mysqld="__blddir/sql//mysqld"
 alias mysql="__blddir/client//mysql --defaults-file=__workdir/my.cnf"
 alias mysqladmin="__blddir/client//mysqladmin --defaults-file=__workdir/my.cnf"
 alias mysqldump="__blddir/client//mysqldump --defaults-file=__workdir/my.cnf"
-alias mysql_install_db="__srcdir/scripts/mysql_install_db.sh"
+alias mysql_install_db="__blddir/scripts/mysql_install_db"
 # export PATH=$PATH:/__blddir/extra/xtrabackup/
 
 shopt -s expand_aliases

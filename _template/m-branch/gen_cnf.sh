@@ -22,7 +22,8 @@ pid_file=__datadir/p.id
 EOL
 cat > __workdir/mysqldextra.cnf <<EOL
 [mysqld]
-lc_messages_dir=__blddir/sql/share
+# lc_messages_dir=__blddir/sql/share
+lc_messages_dir=$(realpath __blddir/sql/share)
 plugin-dir=__workdir/plugin
 EOL
 
