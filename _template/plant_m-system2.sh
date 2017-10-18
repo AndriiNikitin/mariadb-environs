@@ -20,7 +20,7 @@ dll=so
 detect_windows && dll=dll 
 
 for filename in ./_template/m-{system2,all}/* ; do
-   MSYS2_ARG_CONV_EXCL="*" m4 -D__wid=$wid -D__workdir=$workdir -D__port=$port -D__dll=$dll -D__datadir=$workdir/dt $filename > $workdir/$(basename $filename)
+   MSYS2_ARG_CONV_EXCL="*" m4 -D__wid=$wid -D__wwid=$wwid -D__workdir=$workdir -D__port=$port -D__dll=$dll -D__datadir=$workdir/dt $filename > $workdir/$(basename $filename)
 done
 
 detect_windows || for filename in _template/m-{system2,all}/*.sh ; do
@@ -36,12 +36,12 @@ cp ./_template/_system-$yum/* ./_system/
 # do the same for enabled plugins
 for plugin in $ERN_PLUGINS ; do
   [ -d ./_plugin/$plugin/m-system2/ ] && for filename in ./_plugin/$plugin/m-system2/* ; do
-    MSYS2_ARG_CONV_EXCL="*" m4 -D__wid=$wid -D__workdir=$workdir -D__port=$port -D__dll=$dll -D__datadir=$workdir/dt $filename > $workdir/$(basename $filename)
+    MSYS2_ARG_CONV_EXCL="*" m4 -D__wid=$wid -D__wwid=$wwid -D__workdir=$workdir -D__port=$port -D__dll=$dll -D__datadir=$workdir/dt $filename > $workdir/$(basename $filename)
     chmod +x $workdir/$(basename $filename)
   done
 
   [ -d ./_plugin/$plugin/m-all/ ] && for filename in ./_plugin/$plugin/m-all/* ; do
-    MSYS2_ARG_CONV_EXCL="*" m4 -D__wid=$wid -D__workdir=$workdir -D__port=$port -D__dll=$dll -D__datadir=$workdir/dt $filename > $workdir/$(basename $filename)
+    MSYS2_ARG_CONV_EXCL="*" m4 -D__wid=$wid -D__wwid=$wwid -D__workdir=$workdir -D__port=$port -D__dll=$dll -D__datadir=$workdir/dt $filename > $workdir/$(basename $filename)
     chmod +x $workdir/$(basename $filename)
   done
 

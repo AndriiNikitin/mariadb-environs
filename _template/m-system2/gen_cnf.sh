@@ -24,7 +24,7 @@ cat > __workdir/mysqldextra.cnf <<EOL
 [mysqld]
 EOL
 
-[ ! -z "$1" ] && for o in $1 ; do
+[ ! -z "$1" ] && for o in $@ ; do
   option_name=${o%%=*}
   option_value=${o#*=}
 
