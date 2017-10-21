@@ -37,8 +37,8 @@ m2-10.1.30/download.sh
 
 # clone and build git branch 10.1
 ./replant.sh m3-10.1
-m3-10.1/checkout.sh
-m3-10.1/make_release.sh
+m3-10.1/git_worktree_add.sh
+m3-10.1/cmake.sh
 m3-10.1/build.sh
 
 # download and unpack tar build 14054 from hasky
