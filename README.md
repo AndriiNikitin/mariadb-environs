@@ -26,10 +26,10 @@ Now with corresponding plugin user can use the same approach for creating enviro
 ## Synopsis deploying MariaDB Server
 ```
 # (some functionality below works only with plugins)
-# install 10.0.29 , then upgrade to latest 10.0 , then upgrade to latest 10.1-enterprise
+# install 10.0.29 , then upgrade to latest 10.1 
 ./replant.sh m1-system
 m1-system/install.sh 10.0.29
-m1-system/install.sh 10.0
+m1-system/install.sh 10.1
 
 # download and unpack tar 10.1.23
 ./replant.sh m2-10.1.23
