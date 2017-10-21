@@ -110,7 +110,7 @@ Run xtrabackup .sh tests on MariaDB server (either with xtrabackup or mariabacku
 #### docker  https://github.com/AndriiNikitin/mariadb-environs-docker
 Setup environs in docker images
 
-#### spider  https://github.com/AndriiNikitin/mariadb-environs-xtrabackup
+#### spider  https://github.com/AndriiNikitin/mariadb-environs-spider
 Quickly setup local spider cluster
 
 #### travis  https://github.com/AndriiNikitin/mariadb-environs-travis
