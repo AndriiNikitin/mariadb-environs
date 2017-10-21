@@ -51,6 +51,7 @@ m5-10.1~latest/download.sh
 
 # create another test datadir using installed binaries
 ./replant.sh m6-system2
+m6-system2/gen_cnf.sh
 m6-system2/install_db.sh
 ```
 
