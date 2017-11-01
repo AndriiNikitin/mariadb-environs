@@ -258,7 +258,7 @@ else
   echo Extra=${extra_matrix_options} >> "$suitelogdir"/_suite.log
   let seconds=($(date +%s)-start_time)
   echo Concurrency=${CONCURRENCY:-1} >> "$suitelogdir"/_suite.log
-  echo Timeout=${TIMEOUT:-1} >> "$suitelogdir"/_suite.log
+  echo Timeout=${TEST_TIMEOUT:-1} >> "$suitelogdir"/_suite.log
   echo Duration=$seconds >> "$suitelogdir"/_suite.log
   declare -r pass_count=$(grep -c 'PASS$' "$suitelogdir"/_suite.log)
   declare -r failure_count=$(grep -c 'FAIL$' "$suitelogdir"/_suite.log)

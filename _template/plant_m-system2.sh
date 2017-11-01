@@ -27,12 +27,6 @@ detect_windows || for filename in _template/m-{system2,all}/*.sh ; do
     chmod +x $workdir/$(basename $filename)
 done
 
-yum=$(detect_yum)
-
-# add other methods detecting distro here if needed
-mkdir -p ./_system
-cp ./_template/_system-$yum/* ./_system/
-
 # do the same for enabled plugins
 for plugin in $ERN_PLUGINS ; do
   [ -d ./_plugin/$plugin/m-system2/ ] && for filename in ./_plugin/$plugin/m-system2/* ; do
@@ -45,8 +39,6 @@ for plugin in $ERN_PLUGINS ; do
     chmod +x $workdir/$(basename $filename)
   done
 
-#  find . -path "./_plugin/$plugin/m-system/*.sh" -exec m4 -D__workdir=$workdir -D__dll=$dll {} \> $workdir/$(basename {}) \;
-  find . -path "./_plugin/$plugin/_system-$yum/*" -exec cp {} ./_system/ \;
 done
 
 :
