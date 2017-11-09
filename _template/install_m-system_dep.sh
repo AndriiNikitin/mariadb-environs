@@ -11,9 +11,9 @@ if [[ "$(detect_yum)" == apt ]]; then
 
   apt-get clean
 elif [[ "$(detect_yum)" == yum ]]; then
-  yum install -y openssl vim ca-certificates m4 wget curl findutils sudo
+  yum install -y openssl vim ca-certificates m4 wget curl findutils sudo socat
 elif [[ "$(detect_yum)" == zypp ]]; then
-  zypper install -y openssl vim ca-certificates m4 wget curl findutils sudo
+  zypper install -y openssl vim ca-certificates m4 wget curl findutils sudo 
 else 
   echo "Cannot determine distro" 1>&2; exit 1;
 fi
