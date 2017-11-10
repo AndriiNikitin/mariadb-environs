@@ -118,3 +118,7 @@ Submit build request to Travis-CI and get status later
 
 #### hasky  https://github.com/AndriiNikitin/mariadb-environs-hasky
 Download/setup environ from latest MariaDB labs build
+
+#### Galera nodes in docker container with xtrabackup sst
+- build image https://github.com/AndriiNikitin/bugs/blob/master/MDEV-14256-tearup.sh
+- test https://github.com/AndriiNikitin/bugs/blob/master/MDEV-14256-test.sh
