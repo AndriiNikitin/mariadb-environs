@@ -46,19 +46,23 @@ workdir="$(pwd)/$wwid"
 [[ -d "$workdir/dt" ]] || mkdir "$workdir/dt"
 [[ -d "$workdir/bkup" ]] || mkdir "$workdir/bkup"
 
-[ ! -z "$src" ] || {
+if [ -z "$src" ] ; then
   src="${workdir}/src"
   mkdir -p _depot/m-branch
   [ -e _depot/m-branch/$(basename "$workdir")-src ] || mkdir -p _depot/m-branch/$(basename "$workdir")-src
   ln -s $(pwd)/_depot/m-branch/$(basename "$workdir")-src "$workdir"/src
-}
+else
+  ln -s "$src" "$workdir"/src
+fi
 
-[ ! -z "$bld" ] || {
+if [ -z "$bld" ] ; then
   bld="${workdir}/bld"
   mkdir -p _depot/m-branch
   [ -e _depot/m-branch/$(basename "$workdir")-bld ] || mkdir -p _depot/m-branch/$(basename "$workdir")-bld
   ln -s $(pwd)/_depot/m-branch/$(basename "$workdir")-bld "$workdir"/bld
-}
+else
+  ln -s "$bld" "$workdir"/bld
+fi
 
 [ -e "$src" ] || mkdir -p "$src" || {>&2 echo "Cannot create source directory $src" ; exit 1;}
 
