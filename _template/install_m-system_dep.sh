@@ -9,6 +9,8 @@ if [[ "$(detect_yum)" == apt ]]; then
 #  libreadline5 libsigsegv2 libswitch-perl libwrap0 lsof perl perl-modules \
 #  psmisc rsync socat tcpd
 
+   (cat /etc/*release | grep -qE "stretch") && apt-get install procps
+
   apt-get clean
 elif [[ "$(detect_yum)" == yum ]]; then
   yum install -y openssl vim ca-certificates m4 wget curl findutils sudo socat

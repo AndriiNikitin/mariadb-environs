@@ -15,7 +15,8 @@ if [[ "$(detect_yum)" == apt ]]; then
   apt-get clean
  
 elif [[ "$(detect_yum)" == yum ]]; then
-  yum install -y git cmake make gcc-c++ ncurses-devel bison zlib zlib-devel zlib-static openssl vim findutils sudo gnutls-devel
+  yum install -y git cmake make gcc-c++ ncurses-devel bison zlib zlib-devel zlib-static openssl findutils sudo gnutls-devel
+  yum install -y vim || :
 # TODO this is needed for mtr on centos 7 yum install 'perl(Data::Dumper)'
 else 
   echo "Cannot determine distro" 1>&2; exit 1;
